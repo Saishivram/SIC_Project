@@ -365,7 +365,7 @@ def predict():
     filename = f"report_{datetime.datetime.now().timestamp()}.pdf"
     create_pdf(filename, features, risk, advice)
     build_report_index(filename, embed)
-    run_email_agent(data["email"], filename)
+    run_email_agent(data["email"], filename,risk)
     return send_file(filename, as_attachment=True)
 
 @app.route("/chat", methods=["POST"])
