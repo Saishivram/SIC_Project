@@ -1,0 +1,10 @@
+flask
+numpy
+tensorflow==2.20.0
+faiss-cpu==1.12.0
+joblib
+reportlab==4.4.9
+pymupdf==1.26.7
+python-dotenv
+openai==1.109.1
+semantic-kernel==1.39.3

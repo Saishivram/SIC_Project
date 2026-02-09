@@ -19,6 +19,10 @@ from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import inch
 
+from report_chat import build_report_index, search_report
+
+from agent_runner import run_email_agent
+
 load_dotenv()
 
 #################################################
@@ -360,9 +364,33 @@ def predict():
     # PDF
     filename = f"report_{datetime.datetime.now().timestamp()}.pdf"
     create_pdf(filename, features, risk, advice)
-
+    build_report_index(filename, embed)
+    run_email_agent(data["email"], filename)
     return send_file(filename, as_attachment=True)
 
+@app.route("/chat", methods=["POST"])
+def chat():
+
+    question = request.json["question"]
+
+    context = search_report(question, embed)
+
+    prompt = f"""
+    Answer the user's question using the report.
+
+    Report context:
+    {context}
+
+    Question:
+    {question}
+    """
+
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": prompt}]
+    )
+
+    return {"answer": response.choices[0].message.content}
 
 #################################################
 # RUN
