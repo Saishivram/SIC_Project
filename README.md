@@ -146,9 +146,18 @@ POST `/predict`
 
 Returns:
 
-* PDF download
 * Email sent
 * Report indexed for chat
+
+---
+
+### Download Report
+
+GET `/download`
+
+Returns:
+
+* Genrated Report
 
 ---
 

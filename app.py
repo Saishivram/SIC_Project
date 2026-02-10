@@ -25,6 +25,7 @@ from agent_runner import run_email_agent
 
 load_dotenv()
 
+latest_report = None
 #################################################
 # LOAD ARTIFACTS
 #################################################
@@ -338,7 +339,7 @@ def create_pdf(filename, features, risk, advice):
 
 @app.route("/predict", methods=["POST"])
 def predict():
-
+    global latest_report
     data = request.json
 
     features = [
@@ -366,7 +367,17 @@ def predict():
     create_pdf(filename, features, risk, advice)
     build_report_index(filename, embed)
     run_email_agent(data["email"], filename,risk)
-    return send_file(filename, as_attachment=True)
+    latest_report = filename
+    return {"message": "Report generated and emailed successfully"}
+
+@app.route("/download", methods=["GET"])
+def download():
+
+    if not latest_report:
+        return {"error": "No report generated yet"}, 400
+
+    return send_file(latest_report, as_attachment=True)
+
 
 @app.route("/chat", methods=["POST"])
 def chat():
