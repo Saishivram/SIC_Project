@@ -23,6 +23,8 @@ from report_chat import build_report_index, search_report
 
 from agent_runner import run_email_agent
 
+from flask import render_template
+
 load_dotenv()
 
 latest_report = None
@@ -45,7 +47,7 @@ client = AzureOpenAI(
     api_version="2024-02-15-preview"
 )
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="templates", static_folder="static")
 
 #################################################
 # HELPER FUNCTIONS
@@ -337,6 +339,10 @@ def create_pdf(filename, features, risk, advice):
 # FLASK ROUTE
 #################################################
 
+@app.route("/")
+def home():
+    return render_template("index.html")
+
 @app.route("/predict", methods=["POST"])
 def predict():
     global latest_report
@@ -368,7 +374,8 @@ def predict():
     build_report_index(filename, embed)
     run_email_agent(data["email"], filename,risk)
     latest_report = filename
-    return {"message": "Report generated and emailed successfully"}
+    return {"message": "Report generated and emailed successfully",
+            "risk": risk}
 
 @app.route("/download", methods=["GET"])
 def download():
@@ -388,6 +395,9 @@ def chat():
 
     prompt = f"""
     Answer the user's question using the report.
+    Format the response as plain text paragraphs only.
+    Do NOT use bullet points or numbered lists.
+    Keep it concise and readable.
 
     Report context:
     {context}

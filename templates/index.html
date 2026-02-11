@@ -1,0 +1,146 @@
+<html>
+<head>
+    <title>Diabetes Risk Predictor</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>Diabetes Risk Assessment</h1>
+    </header>
+
+    
+
+    <form id="predictForm">
+
+        <!-- Clinical Inputs -->
+        <div class="form-section">
+           <b> <div class="section-title">Clinical Inputs</div></b><br>
+
+            <div class="input-group">
+                <label>Pregnancies</label>
+                <input id="pregnancies" type="number" required>
+            </div>
+
+            <div class="input-group">
+                <label>Glucose</label>
+                <input id="glucose" type="number" required>
+            </div>
+
+            <div class="input-group">
+                <label>Blood Pressure</label>
+                <input id="bp" type="number" required>
+            </div>
+
+            <div class="input-group">
+                <label>Skin Thickness</label>
+                <input id="skin" type="number" required>
+            </div>
+
+            <div class="input-group">
+                <label>Insulin</label>
+                <input id="insulin" type="number" required>
+            </div>
+
+            <div class="input-group">
+                <label>Age</label>
+                <input id="age" type="number" required>
+            </div>
+        </div>
+
+        <!-- BMI -->
+        <div class="form-section">
+            <b><div class="section-title">BMI Calculator</div></b><br>
+
+            <div class="input-group">
+                <label>Weight (kg)</label>
+                <input id="weight" type="number" required>
+            </div>
+
+            <div class="input-group">
+                <label>Height (m)</label>
+                <input id="height" type="number" step="0.01" required>
+            </div>
+
+            <div class="display-box" id="bmiDisplay">
+                BMI: --
+            </div>
+        </div>
+
+        <!-- DPF -->
+        <div class="form-section">
+            <b><div class="section-title">Family History (DPF)</div></b><br>
+
+            <div class="input-group">
+                <label>Relatives with diabetes</label>
+                <input id="relatives" type="number">
+            </div>
+
+            <div class="input-group">
+                <label>Avg diagnosis age</label>
+                <input id="avgAge" type="number">
+            </div>
+
+            <div class="display-box" id="dpfDisplay">
+                DPF: --
+            </div>
+        </div>
+
+        <!-- Contact -->
+        <div class="form-section">
+            <b><div class="section-title">Contact</div></b><br>
+
+            <div class="input-group">
+                <label>Email</label>
+                <input id="email" type="email" required>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="button-group">
+            <button class="btn-primary" type="submit">
+                Generate Report
+            </button>
+
+            <button class="btn-outline" type="button" onclick="downloadReport()">
+                Download Report
+            </button>
+        </div>
+
+    </form>
+    <div id="loadingOverlay">
+        <div class="spinner"></div>
+        Generating AI report...
+    </div>
+
+    <div id="riskBox"></div>
+
+
+    <!-- Result -->
+    <div id="result"></div>
+
+    <!-- Chat -->
+    <div class="chat-container">
+        <h3>Chat with Report</h3>
+
+        <input id="question" placeholder="Ask question...">
+        <button onclick="chat()">Ask</button>
+
+        <div id="chatResponse"></div>
+    </div>
+
+</div>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
