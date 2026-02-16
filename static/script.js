@@ -1,5 +1,16 @@
 const API = "http://127.0.0.1:5000";
 
+function handleGenderChange() {
+    const gender = document.getElementById("gender").value;
+    const pregInput = document.getElementById("pregnancies");
+
+    if (gender === "male") {
+        pregInput.value = 0;
+        pregInput.disabled = true;
+    } else {
+        pregInput.disabled = false;
+    }
+}
 
 
 function calculateBMI() {
@@ -47,7 +58,8 @@ function calculateDPF() {
 }
 
 
-
+document.getElementById("gender").addEventListener("change", handleGenderChange);
+handleGenderChange();
 
 document.getElementById("weight").addEventListener("input", calculateBMI);
 

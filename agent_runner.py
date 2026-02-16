@@ -28,5 +28,5 @@ def run_email_agent(email, pdf_path, risk):
     """
 
     # Simple agent reasoning
-    if risk > 0.3:
+    if risk > 0.01:
         send_report_email(email, pdf_path)

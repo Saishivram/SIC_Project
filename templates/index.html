@@ -27,8 +27,17 @@
            <b> <div class="section-title">Clinical Inputs</div></b><br>
 
             <div class="input-group">
+                <label>Gender</label>
+                <select id="gender" required onchange="togglePregnancy()">
+                    <option value="">Select Gender</option>
+                    <option value="female">Female</option>
+                    <option value="male">Male</option>
+                </select>
+            </div>
+
+            <div class="input-group" id="pregnancyGroup" style="display: none;">
                 <label>Pregnancies</label>
-                <input id="pregnancies" type="number" required>
+                <input id="pregnancies" type="number" value="0">
             </div>
 
             <div class="input-group">
@@ -140,7 +149,25 @@
 
 </div>
 
+<script>
+function togglePregnancy() {
+    const gender = document.getElementById('gender').value;
+    const pregnancyGroup = document.getElementById('pregnancyGroup');
+    const pregnanciesInput = document.getElementById('pregnancies');
+    
+    if (gender === 'female') {
+        pregnancyGroup.style.display = 'block';
+        pregnanciesInput.required = true;
+    } else {
+        pregnancyGroup.style.display = 'none';
+        pregnanciesInput.required = false;
+        pregnanciesInput.value = '0'; // Set to 0 for males
+    }
+}
+</script>
+
 <script src="{{ url_for('static', filename='script.js') }}"></script>
 
 </body>
 </html>
+
