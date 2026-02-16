@@ -136,7 +136,7 @@ def generate_guidance(risk, context):
 #################################################
 
 
-def create_pdf(filename, features, risk, advice):
+def create_pdf(filename, features, risk, advice, patient_name, patient_email):
 
     doc = SimpleDocTemplate(
         filename,
@@ -214,6 +214,11 @@ def create_pdf(filename, features, risk, advice):
 
     story.append(header)
     story.append(Spacer(1, 20))
+
+    story.append(Paragraph(f"<b>Patient Name:</b> {patient_name}", body_style))
+    story.append(Paragraph(f"<b>Email:</b> {patient_email}", body_style))
+    story.append(Spacer(1, 10))
+
 
     story.append(Paragraph(
         f"<b>Generated On:</b> {datetime.datetime.now().strftime('%d-%m-%Y %H:%M')}",
@@ -348,6 +353,10 @@ def predict():
     global latest_report
     data = request.json
 
+    patient_name = data["name"]
+    patient_email = data["email"]
+
+
     features = [
         float(data["pregnancies"]),
         float(data["glucose"]),
@@ -370,7 +379,7 @@ def predict():
 
     # PDF
     filename = f"report_{datetime.datetime.now().timestamp()}.pdf"
-    create_pdf(filename, features, risk, advice)
+    create_pdf(filename, features, risk, advice, patient_name, patient_email)
     build_report_index(filename, embed)
     run_email_agent(data["email"], filename,risk)
     latest_report = filename

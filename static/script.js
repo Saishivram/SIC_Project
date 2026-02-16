@@ -1,4 +1,4 @@
-const API = "http://127.0.0.1:5000";
+const API = "http://localhost:5000";
 
 function handleGenderChange() {
     const gender = document.getElementById("gender").value;
@@ -80,16 +80,18 @@ document.getElementById("predictForm").addEventListener("submit", async function
     const dpf = calculateDPF();
 
     const payload = {
-        pregnancies: parseFloat(pregnancies.value),
-        glucose: parseFloat(glucose.value),
-        bp: parseFloat(bp.value),
-        skin: parseFloat(skin.value),
-        insulin: parseFloat(insulin.value),
-        bmi: bmi,
-        dpf: dpf,
-        age: parseFloat(age.value),
-        email: email.value
+    pregnancies: parseFloat(document.getElementById("pregnancies").value),
+    glucose: parseFloat(document.getElementById("glucose").value),
+    bp: parseFloat(document.getElementById("bp").value),
+    skin: parseFloat(document.getElementById("skin").value),
+    insulin: parseFloat(document.getElementById("insulin").value),
+    bmi: bmi,
+    dpf: dpf,
+    age: parseFloat(document.getElementById("age").value),
+    name: document.getElementById("name").value,
+    email: document.getElementById("email").value
     };
+
 
     const res = await fetch(`${API}/predict`, {
         method: "POST",
